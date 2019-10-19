@@ -9,9 +9,32 @@ const userSchema = new Schema({
     permissionLevel: Number
 })
 
+userSchema.virtual('id').get(function() {
+    return this._id.toHexString();
+});
+
+userSchema.set('toJSON', {
+    virtuals: true,
+});
+
+userSchema.findById = (cb) => {
+    return this.model('Users').find({id: this.id}, cb);
+};
+
 const User = mongoose.model('Users', userSchema)
 
 exports.createUser = (userData) => {
     const user = new User(userData);
     return user.save();
 }
+
+exports.findById = (id) => {
+    return User.findById(id)
+        .then((result) => {
+            result = result.toJSON();
+            delete result._id;
+            delete result.__v;
+            delete result.password;
+            return result;
+        });
+};

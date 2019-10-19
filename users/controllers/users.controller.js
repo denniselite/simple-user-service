@@ -8,7 +8,13 @@ exports.insert = (req, res) => {
     req.body.permissionLevel = 1;
     UserModel.createUser(req.body)
         .then((result) => {
-            console.log('User created at with ID' + result._id);
+            console.log('User created at with ID ' + result._id);
             res.status(201).send({id: result._id})
         });
 };
+
+exports.getById = (req, res) => {
+    UserModel.findById(req.params.userId).then((result) => {
+        res.status(200).send(result);
+    })
+}
