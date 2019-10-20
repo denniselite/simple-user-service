@@ -39,17 +39,41 @@ exports.findById = (id) => {
         });
 };
 
+exports.list = (perPage, page) => {
+    return new Promise((resolve, reject) => {
+        User.find()
+            .limit(perPage)
+            .skip(perPage * page)
+            .exec((err, users) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    users.forEach((_, i) => {
+                        users[i] = users[i].toJSON();
+                        delete users[i]._id;
+                        delete users[i].__v;
+                        delete users[i].password;
+                    });
+                    resolve(users);
+                }
+            });
+    });
+}
+
 exports.patchUser = (id, userData) => {
     return new Promise((resolve, reject) => {
         User.findById(id, (err, user) => {
-            if (err) reject(err);
-            for (let i in userData) {
-                user[i] = userData[i];
-            };
-            user.save((err, updateUser) => {
-                if (err) return reject(err);
-                resolve(updateUser);
-            });
+            if (err) {
+                reject(err);
+            } else {
+                for (let i in userData) {
+                    user[i] = userData[i];
+                };
+                user.save((err, updateUser) => {
+                    if (err) return reject(err);
+                    resolve(updateUser);
+                });
+            }
         });
     });
 }
