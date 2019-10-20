@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
+const AuthorizationRouter = require('./authorization/routes.config');
 const UsersRouter = require('./users/routes.config');
 
 app.use( (req, res, next) => {
@@ -16,6 +17,7 @@ app.use( (req, res, next) => {
 
 app.use(bodyParser.json())
 app.use(morgan('dev'));
+AuthorizationRouter.routeConfig(app)
 UsersRouter.routeConfig(app)
 
 app.listen(3000, () => {

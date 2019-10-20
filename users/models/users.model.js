@@ -28,6 +28,10 @@ exports.createUser = (userData) => {
     return user.save();
 }
 
+exports.findByEmail = (email) => {
+    return User.find({email: email});
+};
+
 exports.findById = (id) => {
     return User.findById(id)
         .then((result) => {
