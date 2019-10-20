@@ -1,6 +1,9 @@
 const UserController = require('./controllers/users.controller');
 
 exports.routeConfig = (app) => {
+    app.delete('/users/:userId', [
+        UserController.removeById
+    ]);
     app.get('/users', [
         UserController.list
     ]);

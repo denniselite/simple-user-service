@@ -43,3 +43,10 @@ exports.patchById = (req, res) => {
         res.status(204).send({});
     });
 }
+
+exports.removeById = (req, res) => {
+    UserModel.removeById(req.params.userId)
+        .then((result) => {
+            res.status(204).send({});
+        });
+};

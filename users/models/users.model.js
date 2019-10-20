@@ -58,7 +58,7 @@ exports.list = (perPage, page) => {
                 }
             });
     });
-}
+};
 
 exports.patchUser = (id, userData) => {
     return new Promise((resolve, reject) => {
@@ -76,4 +76,16 @@ exports.patchUser = (id, userData) => {
             }
         });
     });
-}
+};
+
+exports.removeById = (userId) => {
+    return new Promise((resolve, reject) => {
+        User.remove({_id: userId}, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(err);
+            }
+        });
+    });
+};
